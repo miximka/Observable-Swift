@@ -19,7 +19,7 @@
 /// A class representing a subscription for `Event<T>`.
 public class EventSubscription<T> {
     
-    public typealias HandlerType = T -> ()
+    public typealias HandlerType = (T) -> ()
     
     internal var _valid : () -> Bool
     
@@ -58,12 +58,12 @@ public class EventSubscription<T> {
     }
     
     /// Add an object to be owned while the event is not invalidated
-    public func addOwnedObject(o: AnyObject) {
+    public func addOwnedObject(_ o: AnyObject) {
         _owned.append(o)
     }
     
     /// Remove object from owned objects
-    public func removeOwnedObject(o: AnyObject) {
+    public func removeOwnedObject(_ o: AnyObject) {
         _owned = _owned.filter{ $0 !== o }
     }
 }

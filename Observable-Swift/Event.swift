@@ -21,23 +21,23 @@ public struct Event<T>: UnownableEvent {
     public init() {
     }
     
-    public mutating func notify(value: T) {
+    public mutating func notify(_ value: T) {
         _subscriptions = _subscriptions.filter { $0.valid() }
         for subscription in _subscriptions {
             subscription.handler(value)
         }
     }
     
-    public mutating func add(subscription: SubscriptionType) -> SubscriptionType {
+    public mutating func add(_ subscription: SubscriptionType) -> SubscriptionType {
         _subscriptions.append(subscription)
         return subscription
     }
     
-    public mutating func add(handler : HandlerType) -> SubscriptionType {
+    public mutating func add(_ handler : HandlerType) -> SubscriptionType {
         return add(SubscriptionType(owner: nil, handler: handler))
     }
     
-    public mutating func remove(subscription : SubscriptionType) {
+    public mutating func remove(_ subscription : SubscriptionType) {
         var newsubscriptions = [SubscriptionType]()
         var first = true
         for existing in _subscriptions {
@@ -54,7 +54,7 @@ public struct Event<T>: UnownableEvent {
         _subscriptions.removeAll()
     }
     
-    public mutating func add(owner owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    public mutating func add(owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         return add(SubscriptionType(owner: owner, handler: handler))
     }
     
@@ -64,16 +64,16 @@ public struct Event<T>: UnownableEvent {
     
 }
 
-public func += <T: UnownableEvent> (inout event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
+public func += <T: UnownableEvent> (event: inout T, handler: (T.ValueType) -> ()) -> EventSubscription<T.ValueType> {
     return event.add(handler)
 }
 
-public func += <T: OwnableEvent> (event: T, handler: T.ValueType -> ()) -> EventSubscription<T.ValueType> {
+public func += <T: OwnableEvent> (event: T, handler: (T.ValueType) -> ()) -> EventSubscription<T.ValueType> {
     var e = event
     return e.add(handler)
 }
 
-public  func -= <T: UnownableEvent> (inout event: T, subscription: EventSubscription<T.ValueType>) {
+public  func -= <T: UnownableEvent> (event: inout T, subscription: EventSubscription<T.ValueType>) {
     return event.remove(subscription)
 }
 

@@ -14,19 +14,19 @@ public class EventReference<T>: OwnableEvent {
     
     internal var event: Event<T>
     
-    public func notify(value: T) {
+    public func notify(_ value: T) {
         event.notify(value)
     }
     
-    public func add(subscription: SubscriptionType) -> SubscriptionType {
+    public func add(_ subscription: SubscriptionType) -> SubscriptionType {
         return event.add(subscription)
     }
     
-    public func add(handler : T -> ()) -> EventSubscription<T> {
+    public func add(_ handler : (T) -> ()) -> EventSubscription<T> {
         return event.add(handler)
     }
     
-    public func remove(subscription : SubscriptionType) {
+    public func remove(_ subscription : SubscriptionType) {
         return event.remove(subscription)
     }
     
@@ -34,7 +34,7 @@ public class EventReference<T>: OwnableEvent {
         event.removeAll()
     }
     
-    public func add(owner owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
+    public func add(owner : AnyObject, _ handler : HandlerType) -> SubscriptionType {
         return event.add(owner: owner, handler)
     }
     

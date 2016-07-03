@@ -36,6 +36,6 @@ public class ObservableProxy<T, O: AnyObservable where O.ValueType == T> : Ownab
     
 }
 
-public func proxy <O: AnyObservable> (o: O) -> ObservableProxy<O.ValueType, O> {
+public func proxy <O: AnyObservable> (_ o: O) -> ObservableProxy<O.ValueType, O> {
     return ObservableProxy(o)
 }
